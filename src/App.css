@@ -120,3 +120,11 @@ header > p {
     aspect-ratio: 1;
   }
 }
+
+.correct{
+  background-color: green;
+}
+
+.wrong{
+  background-color: red;
+}

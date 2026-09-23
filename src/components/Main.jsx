@@ -1,26 +1,55 @@
 import { languages } from "./languages"
 import { useState } from "react"
+import { clsx } from "clsx"
 
 
 export default function Main() {
+// all the states here
 
-    const [currentWord] = useState("react")
+    const [currentWord, setcurrentWord] = useState("react")
+    const [guessLetters, setGuessLetters] = useState([])
     const arr = currentWord.split("")
+    function addGuessedLetter(letter) {
+        setGuessLetters(prev => prev.includes(letter) ? prev : [...prev, letter])
 
+    }
+
+// all the derived values here!
+
+const wrongGuessCount = guessLetters.filter(letter=> !currentWord.includes(letter)).length
+console.log(wrongGuessCount)
+
+// all the static values
     const alphabets = "abcdefghijklmnopqrstuvwxyz".split("")
 
-    const keys = alphabets.map((key) => (
-        <span className="alphabet" key={key}>
-            {key}
-        </span>
-    ))
+
+    const letters = alphabets.map((key) => {
+        const isCorrect = guessLetters.includes(key) && currentWord.includes(key)
+        const isWrong = guessLetters.includes(key) && !currentWord.includes(key)
+
+        return (
+            <button
+                className={clsx(
+                    "alphabet",
+                    isCorrect && "correct",
+                    isWrong && "wrong"
+                )}
+                onClick={() => addGuessedLetter(key)}
+                key={key}
+            >
+                {key.toUpperCase()}
+            </button>
+        )
+    })
 
 
-    const boxes = arr.map((letter, index) => (
-        <span className="dashes" key={`${letter}-${index}`}>
-            {letter.toUpperCase()}
-        </span>
-    ))
+    const boxes = arr.map((letter, index) => {
+        return (
+            <span className="dashes" key={`${letter}-${index}`}>
+                {guessLetters.includes(letter) ? letter.toUpperCase() : ""}
+            </span>
+        )
+    })
 
     const chips = languages.map(chip =>
         <div
@@ -58,7 +87,7 @@ export default function Main() {
             </div>
 
             <div className="keyboard">
-                {keys}
+                {letters}
             </div>
         </main>
 
