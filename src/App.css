@@ -36,7 +36,6 @@ header > p {
   margin: 20px auto;
   padding: 8px;
   border-radius: 4px;
-  background-color: #ba2a2a;
   text-align: center;
   color: #f9f4da;
 }
@@ -129,7 +128,7 @@ header > p {
   background-color: red;
 }
 
-.lost::before {
+.chips-lost::before {
   content: "💀";
   position: absolute;
   display: flex;
@@ -143,7 +142,7 @@ header > p {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.lost {
+.chips-lost {
   position: relative;
   overflow: hidden;
 }
@@ -164,4 +163,12 @@ header > p {
   border-radius: 4px;
   border: 0px;
   width: 150px;
+}
+
+.status.won{
+  background-color: green;
+}
+
+.status.lost{
+  background-color: red;
 }

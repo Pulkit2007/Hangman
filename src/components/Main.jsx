@@ -23,7 +23,7 @@ export default function Main() {
     const isGameOver = isGameWon || isGameLost
 
 
-    // all the static values
+    // all the static valuesa
     const alphabets = "abcdefghijklmnopqrstuvwxyz".split("")
 
 
@@ -58,7 +58,7 @@ export default function Main() {
     const chips = languages.map((chip, index) => {
         const isLanguagelost = index < wrongGuessCount
         return <div
-            className={clsx("chips", isLanguagelost && "lost")}
+            className={clsx("chips", isLanguagelost && "chips-lost")}
             key={chip.name}
             style={{
                 backgroundColor: chip.backgroundColor,
@@ -69,6 +69,14 @@ export default function Main() {
         </div>
     })
 
+    const classname = clsx("status",
+        {
+            won: isGameWon,
+            lost: isGameLost
+
+        }
+    )
+
     return (
         <main className="game">
             <header>
@@ -78,10 +86,24 @@ export default function Main() {
                 </p>
             </header>
 
-            <section>
-                <div className="status">
-                    <p>{isGameWon ? "Game Won!": "You lose"}</p>
-                    <p>{isGameWon ? "Well Done" : "You lose! Better start learning Assemby"}</p>
+
+
+            <section >
+                <div className={classname}>
+                    {isGameOver ? (
+                        isGameWon ? (
+                            <>
+                                <p>Game Won</p>
+                                <p>Well Done!</p>
+                            </>
+
+                        ) : (<> <p>You Lose!</p>
+                            <p>Better learn Assembly Now!</p>
+
+                        </>)
+
+                    ) : null}
+
                 </div>
             </section>
 
