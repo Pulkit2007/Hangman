@@ -4,22 +4,26 @@ import { clsx } from "clsx"
 
 
 export default function Main() {
-// all the states here
+    // all the states here
 
     const [currentWord, setcurrentWord] = useState("react")
     const [guessLetters, setGuessLetters] = useState([])
     const arr = currentWord.split("")
     function addGuessedLetter(letter) {
         setGuessLetters(prev => prev.includes(letter) ? prev : [...prev, letter])
-
     }
 
-// all the derived values here!
+    // all the derived values here!
 
-const wrongGuessCount = guessLetters.filter(letter=> !currentWord.includes(letter)).length
-console.log(wrongGuessCount)
+    const wrongGuessCount = guessLetters.filter(letter => !currentWord.includes(letter)).length
+    console.log(wrongGuessCount)
 
-// all the static values
+    const isGameWon = currentWord.split('').every(letter => guessLetters.includes(letter))
+    const isGameLost = wrongGuessCount >= languages.length - 1
+    const isGameOver = isGameWon || isGameLost
+
+
+    // all the static values
     const alphabets = "abcdefghijklmnopqrstuvwxyz".split("")
 
 
@@ -51,9 +55,10 @@ console.log(wrongGuessCount)
         )
     })
 
-    const chips = languages.map(chip =>
-        <div
-            className="chips"
+    const chips = languages.map((chip, index) => {
+        const isLanguagelost = index < wrongGuessCount
+        return <div
+            className={clsx("chips", isLanguagelost && "lost")}
             key={chip.name}
             style={{
                 backgroundColor: chip.backgroundColor,
@@ -62,7 +67,7 @@ console.log(wrongGuessCount)
         >
             {chip.name}
         </div>
-    )
+    })
 
     return (
         <main className="game">
@@ -73,10 +78,13 @@ console.log(wrongGuessCount)
                 </p>
             </header>
 
-            <div className="status">
-                <p>Game Over!</p>
-                <p>You Lose! Better start learning assembly</p>
-            </div>
+            <section>
+                <div className="status">
+                    <p>{isGameWon ? "Game Won!": "You lose"}</p>
+                    <p>{isGameWon ? "Well Done" : "You lose! Better start learning Assemby"}</p>
+                </div>
+            </section>
+
 
             <div className="chips-container">
                 {chips}
@@ -89,6 +97,9 @@ console.log(wrongGuessCount)
             <div className="keyboard">
                 {letters}
             </div>
+            {isGameOver && <div className="new-game">
+                <button className="new-game-btn">New Game</button>
+            </div>}
         </main>
 
 
